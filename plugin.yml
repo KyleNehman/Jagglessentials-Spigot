@@ -1,0 +1,7 @@
+name: Jagglessentials
+description: All the essentials for a generic server!
+version: 1.10.2-0.0.1.0
+author: Jagahkiin2014
+website: https://github.com/Jagahkiin2014/Jagglessentials-Spigot
+
+main: com.github.jagahkiin2014.Jagglessentials.Jagglessentials
