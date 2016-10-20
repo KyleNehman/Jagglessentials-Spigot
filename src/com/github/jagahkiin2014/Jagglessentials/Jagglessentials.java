@@ -10,7 +10,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogin;
-import com.github.jagahkiin2014.Jagglessentials.Metrics.Metrics;
+import com.github.jagahkiin2014.Jagglessentials.Metrics.MetricsLite;
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
 
 public class Jagglessentials extends JavaPlugin {
@@ -37,10 +37,10 @@ public class Jagglessentials extends JavaPlugin {
 		registerCommands();
 		
 		try {
-			Metrics metrics = new Metrics(this);
+			MetricsLite metrics = new MetricsLite(this);
 			metrics.start();
 		} catch (IOException e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
