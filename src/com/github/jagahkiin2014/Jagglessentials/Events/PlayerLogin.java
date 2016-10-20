@@ -15,8 +15,8 @@ import org.bukkit.plugin.Plugin;
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
 
 public class PlayerLogin implements Listener {
-	Plugin plugin;
 	
+	Plugin plugin;
 	public PlayerLogin(Plugin instance) {
 		plugin = instance;
 	}
@@ -40,6 +40,12 @@ public class PlayerLogin implements Listener {
 				userFile.set("positions.login.x", e.getPlayer().getLocation().getBlockX());
 				userFile.set("positions.login.y", e.getPlayer().getLocation().getBlockY());
 				userFile.set("positions.login.z", e.getPlayer().getLocation().getBlockZ());
+				
+				userFile.createSection("history");
+				userFile.set("kicks", "");
+				userFile.set("tempbans", "");
+				userFile.set("bans", "");
+				userFile.set("unbans", "");
 				
 				userFile.createSection("misc");
 				userFile.set("misc.god", false);

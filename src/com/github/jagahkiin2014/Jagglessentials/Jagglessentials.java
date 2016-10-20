@@ -9,6 +9,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.jagahkiin2014.Jagglessentials.Commands.Seen;
 import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogin;
 import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogout;
 import com.github.jagahkiin2014.Jagglessentials.Metrics.MetricsLite;
@@ -39,7 +40,7 @@ public class Jagglessentials extends JavaPlugin {
 		
 		createFiles();
 		registerEvents();
-		//registerCommands();
+		registerCommands();
 		enableMetrics();
 	}
 	
@@ -75,8 +76,8 @@ public class Jagglessentials extends JavaPlugin {
 		pm.registerEvents(pLogout, this);
 	}
 	
-	/*private void registerCommands() {
-		Announce announce = new Announce(this);
+	private void registerCommands() {
+		/*Announce announce = new Announce(this);
 		Ban ban = new Ban(this);
 		Clear clear = new Clear(this);
 		ClearBanKickHistory cbkh = new ClearBanKickHistory(this);
@@ -90,9 +91,9 @@ public class Jagglessentials extends JavaPlugin {
 		Mail mail = new Mail(this);
 		MOTD motd = new MOTD(this);
 		Mute mute = new Mute(this);
-		OnlinePlayers onplayers = new OnlinePlayers(this);
+		OnlinePlayers onplayers = new OnlinePlayers(this);*/
 		Seen seen = new Seen(this);
-		Sethome sethome = new Sethome(this);
+		/*Sethome sethome = new Sethome(this);
 		Setspawn setspawn = new Setspawn(this);
 		Spawn spawn = new Spawn(this);
 		Speed speed = new Speed(this);
@@ -114,16 +115,16 @@ public class Jagglessentials extends JavaPlugin {
 		getCommand("mail").setExecutor(mail);
 		getCommand("motd").setExecutor(motd);
 		getCommand("mute").setExecutor(mute);
-		getCommand("onlineplayers").setExecutor(onplayers);
+		getCommand("onlineplayers").setExecutor(onplayers);*/
 		getCommand("seen").setExecutor(seen);
-		getCommand("sethome").setExecutor(sethome);
+		/*getCommand("sethome").setExecutor(sethome);
 		getCommand("setspawn").setExecutor(setspawn);
 		getCommand("spawn").setExecutor(spawn);
 		getCommand("speed").setExecutor(speed);
 		getCommand("tempban").setExecutor(tban);
 		getCommand("time").setExecutor(time);
-		getCommand("weather").setExecutor(weather);
-	}*/
+		getCommand("weather").setExecutor(weather);*/
+	}
 	
 	private void enableMetrics() {
 		try {
