@@ -325,10 +325,10 @@ public class Metrics {
         // return => base/plugins/PluginMetrics/config.yml
         return new File(new File(pluginsFolder, "PluginMetrics"), "config.yml");
     }
-
+    
     /**
      * Gets the online player (backwards compatibility)
-     *
+     * 
      * @return online player amount
      */
     private int getOnlinePlayers() {
@@ -344,7 +344,7 @@ public class Metrics {
                 Bukkit.getLogger().log(Level.INFO, "[Metrics] " + ex.getMessage());
             }
         }
-
+        
         return 0;
     }
 
@@ -354,7 +354,7 @@ public class Metrics {
     private void postPlugin(final boolean isPing) throws IOException {
         // Server software specific section
         PluginDescriptionFile description = plugin.getDescription();
-        String pluginName = "EssentialsX"; // EssX - Don't conflict with Ess
+        String pluginName = description.getName();
         boolean onlineMode = Bukkit.getServer().getOnlineMode(); // TRUE if online mode is enabled
         String pluginVersion = description.getVersion();
         String serverVersion = Bukkit.getVersion();
