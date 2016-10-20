@@ -8,16 +8,10 @@ import java.util.UUID;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
 
 public class JECommand {
-	
-	static Plugin plugin;
-	public JECommand(Plugin instance) {
-		plugin = instance;
-	}
 	
 	public static final void tooManyArgs(CommandSender sender) {
 		sender.sendMessage(Log.ColorMessage("&cError: Too many arguments."));
