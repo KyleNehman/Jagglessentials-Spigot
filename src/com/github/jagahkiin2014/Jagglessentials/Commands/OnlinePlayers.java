@@ -5,10 +5,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
 
-public class Kick implements CommandExecutor {
+public class OnlinePlayers implements CommandExecutor {
 	
 	Plugin plugin;
-	public Kick(Plugin instance) {
+	public OnlinePlayers(Plugin instance) {
 		plugin = instance;
 	}
 	
