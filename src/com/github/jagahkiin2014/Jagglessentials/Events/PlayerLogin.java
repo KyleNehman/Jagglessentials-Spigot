@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.bukkit.GameMode;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -26,9 +28,23 @@ public class PlayerLogin implements Listener {
 		
 		if(!files.equals(uuid + ".yml")) {
 			File newUser = new File(userDir + "/" + uuid + ".yml");
+			YamlConfiguration userFile = new YamlConfiguration();
 			Log.LogMessage("User file not found! Creating....", plugin.getServer().getConsoleSender());
 			try {
-				newUser.createNewFile();
+				userFile.createSection("known-aliases");
+				userFile.set("known-aliases", e.getPlayer().getName());
+				
+				userFile.createSection("positions");
+				userFile.set("positions.login.x", e.getPlayer().getLocation().getBlockX());
+				userFile.set("positions.login.y", e.getPlayer().getLocation().getBlockY());
+				userFile.set("positions.login.z", e.getPlayer().getLocation().getBlockZ());
+				
+				userFile.createSection("misc");
+				userFile.addDefault("misc.god", false);
+				userFile.addDefault("misc.fly", false);
+				userFile.addDefault("misc.gamemode", 0);
+				
+				userFile.save(newUser);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
