@@ -9,30 +9,8 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.jagahkiin2014.Jagglessentials.Commands.Announce;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Ban;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Clear;
-import com.github.jagahkiin2014.Jagglessentials.Commands.ClearBanKickHistory;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Feed;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Fly;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Gamemode;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Give;
-import com.github.jagahkiin2014.Jagglessentials.Commands.God;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Heal;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Kick;
-import com.github.jagahkiin2014.Jagglessentials.Commands.MOTD;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Mail;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Mute;
-import com.github.jagahkiin2014.Jagglessentials.Commands.OnlinePlayers;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Seen;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Sethome;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Setspawn;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Spawn;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Speed;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Tempban;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Time;
-import com.github.jagahkiin2014.Jagglessentials.Commands.Weather;
 import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogin;
+import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogout;
 import com.github.jagahkiin2014.Jagglessentials.Metrics.MetricsLite;
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
 
@@ -49,6 +27,10 @@ public class Jagglessentials extends JavaPlugin {
 	
 	@Override
 	public void onEnable() {
+		startup();
+	}
+	
+	private void startup() {
 		PluginDescriptionFile pdFile = this.getDescription();
 		version = pdFile.getVersion();
 		authors = pdFile.getAuthors();
@@ -57,14 +39,8 @@ public class Jagglessentials extends JavaPlugin {
 		
 		createFiles();
 		registerEvents();
-		registerCommands();
-		
-		try {
-			MetricsLite metrics = new MetricsLite(this);
-			metrics.start();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		//registerCommands();
+		enableMetrics();
 	}
 	
 	private void createFiles() {
@@ -89,13 +65,17 @@ public class Jagglessentials extends JavaPlugin {
 		}
 	}
 	
-	public void registerEvents() {
+	private void registerEvents() {
 		PluginManager pm = Bukkit.getServer().getPluginManager();
+		
 		PlayerLogin pLogin = new PlayerLogin(this);
+		PlayerLogout pLogout = new PlayerLogout(this);
+		
 		pm.registerEvents(pLogin, this);
+		pm.registerEvents(pLogout, this);
 	}
 	
-	public void registerCommands() {
+	/*private void registerCommands() {
 		Announce announce = new Announce(this);
 		Ban ban = new Ban(this);
 		Clear clear = new Clear(this);
@@ -143,5 +123,14 @@ public class Jagglessentials extends JavaPlugin {
 		getCommand("tempban").setExecutor(tban);
 		getCommand("time").setExecutor(time);
 		getCommand("weather").setExecutor(weather);
+	}*/
+	
+	private void enableMetrics() {
+		try {
+			MetricsLite metrics = new MetricsLite(this);
+			metrics.start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }
