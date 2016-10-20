@@ -1,11 +1,13 @@
 package com.github.jagahkiin2014.Jagglessentials;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.jagahkiin2014.Jagglessentials.Metrics.Metrics;
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
 
 public class Jagglessentials extends JavaPlugin {
@@ -14,6 +16,7 @@ public class Jagglessentials extends JavaPlugin {
 	
 	public static File SettingsDir;
 	public static File SettingsFile;
+	public static File UserDir;
 	
 	@Override
 	public void onDisable() {
@@ -36,6 +39,13 @@ public class Jagglessentials extends JavaPlugin {
 		if(!SettingsFile.exists()) {
 			saveResource("Settings/settings.yml", false);
 		}
+		UserDir = new File(getDataFolder() + "/Users");
 		
+		try {
+			Metrics metrics = new Metrics(this);
+			metrics.start();
+		} catch (IOException e) {
+			
+		}
 	}
 }
