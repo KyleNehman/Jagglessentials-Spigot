@@ -3,5 +3,25 @@ description: All the essentials for a generic server!
 version: 1.10.2-0.0.1.0
 author: Jagahkiin2014
 website: https://github.com/Jagahkiin2014/Jagglessentials-Spigot
-
 main: com.github.jagahkiin2014.Jagglessentials.Jagglessentials
+
+commands:
+    seen:
+        description: Provides information on a player.
+        aliases: [playerinfo, whois]
+        
+permissions:
+    je.*:
+        description: Provides perms to all commands.
+        children:
+            je.seen.*: true
+    je.seen.*:
+        description: Provides perms to all seen info.
+        children:
+            je.seen.normal: true
+            je.seen.staff: true
+    je.seen.normal:
+        description: Provides perms to player info for generally normal players.
+    je.seen.staff:
+        description: Provides perms to player info for generally staff players.
+        

@@ -35,6 +35,9 @@ public class PlayerLogin implements Listener {
 				userFile.createSection("known-aliases");
 				userFile.set("known-aliases", e.getPlayer().getName());
 				
+				userFile.createSection("last-known-ip");
+				userFile.set("last-known-ip", e.getPlayer().getAddress().getAddress().getHostAddress().replaceAll("/", ""));
+				
 				userFile.createSection("positions");
 				userFile.set("positions.login.world", e.getPlayer().getWorld().getName());
 				userFile.set("positions.login.x", e.getPlayer().getLocation().getBlockX());

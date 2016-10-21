@@ -59,7 +59,7 @@ public class Seen implements CommandExecutor {
 							seenBot(sender);
 						}
 						
-					} else if(sender.hasPermission("je.seen.moderator")) {
+					} else if(sender.hasPermission("je.seen.staff")) {
 						
 						if(!target.isOnline()) {
 							seenTop(sender);
@@ -67,28 +67,9 @@ public class Seen implements CommandExecutor {
 							JECommand.msg(sender, "&6Status: &cOffline");
 							JECommand.msg(sender, "&6UUID:&a " + getUUID(sender, target));
 							JECommand.msg(sender, "&6Known Aliases: &a" + JECommand.getAliases(userFile, userInfo, getUUID(sender, target)));
-							
-							seenBot(sender);
-							
-						} else {
-							seenTop(sender);
-							
-							JECommand.msg(sender, "&6Status: &aOnline");
-							JECommand.msg(sender, "&6UUID:&a " + getUUID(sender, target));
-							JECommand.msg(sender, "&6Known Aliases: &a" + JECommand.getAliases(userFile, userInfo, getUUID(sender, target)));
-							
-							seenBot(sender);
-						}
-						
-					} else if(sender.hasPermission("je.seen.admin")) {
-						
-						if(!target.isOnline()) {
-							seenTop(sender);
-							
-							JECommand.msg(sender, "&6Status: &cOffline");
-							JECommand.msg(sender, "&6UUID:&a " + getUUID(sender, target));
-							JECommand.msg(sender, "&6Known Aliases: &a" + JECommand.getAliases(userFile, userInfo, getUUID(sender, target)));
-							JECommand.msg(sender, "&6Last Known IP:&a ");
+							if(sender.hasPermission("je.seen.ip")) {
+								JECommand.msg(sender, "&6Last Known IP:&a " + userInfo.get("last-login-ip"));
+							}
 							
 							seenBot(sender);
 							
