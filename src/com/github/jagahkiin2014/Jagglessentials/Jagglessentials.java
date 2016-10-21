@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -21,7 +20,6 @@ public class Jagglessentials extends JavaPlugin {
 	public List<String> authors;
 	
 	public static File UserDir;
-	public static File uuid;
 	
 	@Override
 	public void onDisable() {
@@ -65,16 +63,6 @@ public class Jagglessentials extends JavaPlugin {
 			Log.LogMessage("[JE] User directory not found! Creating....", getServer().getConsoleSender());
 			UserDir.mkdir();
 			Log.LogMessage("[JE] User directory created.", getServer().getConsoleSender());
-		}
-		
-		uuid = new File(getDataFolder(), "uuid.yml");
-		YamlConfiguration uuidFile = new YamlConfiguration();
-		if(!uuid.exists()) {
-			try {
-				uuidFile.save(uuid);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 	

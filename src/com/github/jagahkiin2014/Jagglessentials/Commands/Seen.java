@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +16,7 @@ import org.bukkit.plugin.PluginDescriptionFile;
 
 import com.github.jagahkiin2014.Jagglessentials.Jagglessentials;
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
+import com.github.jagahkiin2014.Jagglessentials.Utils.UUIDFetcher;
 
 public class Seen implements CommandExecutor {
 	
@@ -27,57 +29,32 @@ public class Seen implements CommandExecutor {
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
 		
 		if(cmdLabel.equalsIgnoreCase("seen")) {
-			if(sender.hasPermission("je.seen")) {
-				if(args.length < 1) {
-					JECommand.tooFewArgs(sender);
-					
-				} else if(args.length > 1) {
-					JECommand.tooManyArgs(sender);
-					
-				} else if(args.length == 1) {
-					Player target = plugin.getServer().getPlayer(args[0]);
-					if(sender.hasPermission("je.seen.staff")) {
-						seenStaff(sender, target);
-					}
-					
-					if(sender.hasPermission("je.seen.normal")) {
-						seenNorm(sender, target);
-					}
-				}
-			} else {
+			if(args.length < 1) {
+				JECommand.tooFewArgs(sender);
 				
-				JECommand.noPerms(sender);
+			} else if(args.length > 1) {
+				JECommand.tooManyArgs(sender);
+				
+			} else if(args.length == 1) {
+				if(sender.hasPermission("je.seen.staff")) {
+					seenStaff(sender, args[0]);
+				} else if(sender.hasPermission("je.seen.normal")) {
+					seenNorm(sender, args[0]);
+				} else {
+					JECommand.noPerms(sender);
+				}
 			}
 		}
 		return false;
 	}
 	
 	private void seenTop(CommandSender sender) {
-		sender.sendMessage(Log.ColorMessage("&6+----------&bUser&6--&bInfo&6----------+"));
+		sender.sendMessage(Log.ColorMessage("&6+----------&bUser&6---&bInfo&6----------+"));
 	}
 	
-	private void seenNorm(CommandSender sender, Player target) {
-		if(!target.isOnline()) {
-			seenTop(sender);
-			
-			try {
-				YamlConfiguration uuidFile = new YamlConfiguration();
-				uuidFile.load(Jagglessentials.uuid);
-				String offUuid = uuidFile.getString(target.getName());
-				String aliases = uuidFile.getStringList("known-aliases").toString().replace("[", "").replace("]", "");
-				
-				JECommand.msg(sender, "&6Status: &cOffline");
-				JECommand.msg(sender, "&6UUID:&e " + offUuid);
-				JECommand.msg(sender, "&6Known Aliases: &e" + aliases);
-				JECommand.msg(sender, "&6Last Online: " + target.getLastPlayed());
-			
-			} catch(IOException | InvalidConfigurationException e1) {
-				e1.printStackTrace();
-			}
-			
-			seenBot(sender);
-			
-		} else {
+	private void seenNorm(CommandSender sender, String args) {
+		Player target = Bukkit.getPlayer(args);
+		if(target != null) {
 			seenTop(sender);
 			
 			JECommand.msg(sender, "&6Status: &aOnline");
@@ -85,38 +62,21 @@ public class Seen implements CommandExecutor {
 			JECommand.msg(sender, "&6Known Aliases: &e" + getAliases(sender, target));
 			
 			seenBot(sender);
+			
+		} else {
+			seenTop(sender);
+		
+			JECommand.msg(sender, "&6Status: &cOffline");
+			JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(target.getName()));
+			JECommand.msg(sender, "&6Last Online: " + target.getLastPlayed());
+			
+			seenBot(sender);
 		}
 	}
 	
-	private void seenStaff(CommandSender sender, Player target) {
-		if(!target.isOnline()) {
-			try {
-				YamlConfiguration uuidFile = new YamlConfiguration();
-				
-				uuidFile.load(Jagglessentials.uuid);
-				String offUuid = uuidFile.getString(target.getName());
-				
-				File userFile = new File(Jagglessentials.UserDir + File.separator, offUuid + ".yml");
-				YamlConfiguration userInfo = new YamlConfiguration();
-				
-				String aliases = userInfo.getStringList("known-aliases").toString().replace("[", "").replace("]", "");
-				
-				seenTop(sender);
-				
-				JECommand.msg(sender, "&6Status: &cOffline");
-				JECommand.msg(sender, "&6UUID:&e " + offUuid);
-				JECommand.msg(sender, "&6Known Aliases: &e" + aliases);
-				JECommand.msg(sender, "&6Last Online:&e " + target.getLastPlayed());
-				if(sender.hasPermission("je.seen.ip")) {
-					userInfo.load(userFile);
-					JECommand.msg(sender, "&6Last Known IP:&e " + userInfo.get("last-seen.ip"));
-				}
-				
-				seenBot(sender);
-			} catch (IOException | InvalidConfigurationException e) {
-				e.printStackTrace();
-			}
-		} else {
+	private void seenStaff(CommandSender sender, String args) {
+		Player target = Bukkit.getPlayer(args);
+		if(target != null) {
 			try {
 				
 				File userFile = new File(Jagglessentials.UserDir + File.separator, target.getUniqueId() + ".yml");
@@ -130,12 +90,35 @@ public class Seen implements CommandExecutor {
 				JECommand.msg(sender, "&6Known Aliases: &e" + getAliases(sender, target));
 				JECommand.msg(sender, "&6IP Address:&e " + target.getServer().getIp());
 				JECommand.msg(sender, "");
-				JECommand.msg(sender, "&6+----&bHistory&6----+");
-				JECommand.msg(sender, "&6Kicks:&e " + (userInfo.getStringList("history.kicks").size() - 1));
-				JECommand.msg(sender, "&6Tempbans:&e " + (userInfo.getStringList("history.tempbans").size() - 1));
-				JECommand.msg(sender, "&6Bans:&e " + (userInfo.getStringList("history.bans").size() - 1));
-				JECommand.msg(sender, "&6Unbans:&e " + (userInfo.getStringList("history.unbans").size() - 1));
+				JECommand.msg(sender, "&6+------------&bHistory&6------------+");
+				JECommand.msg(sender, "&6Kicks:&e " + userInfo.getStringList("history.kicks").size());
+				JECommand.msg(sender, "&6Tempbans:&e " + userInfo.getStringList("history.tempbans").size());
+				JECommand.msg(sender, "&6Bans:&e " + userInfo.getStringList("history.bans").size());
+				JECommand.msg(sender, "&6Unbans:&e " + userInfo.getStringList("history.unbans").size());
 				JECommand.msg(sender, "&8Use '&7/history <player>&8' for a detailed synopsis.");
+				
+				seenBot(sender);
+			} catch (IOException | InvalidConfigurationException e) {
+				e.printStackTrace();
+			}
+		} else {
+			try {
+				
+				File userFile = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(args) + ".yml");
+				YamlConfiguration userInfo = new YamlConfiguration();
+				
+				String aliases = userInfo.getStringList("known-aliases").toString().replace("[", "").replace("]", "");
+				
+				seenTop(sender);
+				
+				JECommand.msg(sender, "&6Status: &cOffline");
+				JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(args));
+				JECommand.msg(sender, "&6Known Aliases: &e" + aliases);
+				JECommand.msg(sender, "&6Last Online:&e " + target.getLastPlayed());
+				if(sender.hasPermission("je.seen.ip")) {
+					userInfo.load(userFile);
+					JECommand.msg(sender, "&6Last Known IP:&e " + userInfo.get("last-seen.ip"));
+				}
 				
 				seenBot(sender);
 			} catch (IOException | InvalidConfigurationException e) {
