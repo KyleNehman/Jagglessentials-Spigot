@@ -67,8 +67,8 @@ public class Seen implements CommandExecutor {
 			seenTop(sender);
 		
 			JECommand.msg(sender, "&6Status: &cOffline");
-			JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(target.getName()));
-			JECommand.msg(sender, "&6Last Online: " + target.getLastPlayed());
+			JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(args));
+			JECommand.msg(sender, "&6Last Online: ");
 			
 			seenBot(sender);
 		}
@@ -114,7 +114,7 @@ public class Seen implements CommandExecutor {
 				JECommand.msg(sender, "&6Status: &cOffline");
 				JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(args));
 				JECommand.msg(sender, "&6Known Aliases: &e" + aliases);
-				JECommand.msg(sender, "&6Last Online:&e " + target.getLastPlayed());
+				JECommand.msg(sender, "&6Last Online:&e ");
 				if(sender.hasPermission("je.seen.ip")) {
 					userInfo.load(userFile);
 					JECommand.msg(sender, "&6Last Known IP:&e " + userInfo.get("last-seen.ip"));
