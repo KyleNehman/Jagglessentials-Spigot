@@ -8,7 +8,7 @@ main: com.github.jagahkiin2014.Jagglessentials.Jagglessentials
 commands:
     seen:
         description: Provides information on a player.
-        aliases: [playerinfo, whois]
+        aliases: [playerinfo, whois, uuid]
         
 permissions:
     je.*:

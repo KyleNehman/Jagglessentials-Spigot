@@ -38,25 +38,38 @@ public class Seen implements CommandExecutor {
 				} else if(args.length == 1) {
 					Player target = plugin.getServer().getPlayer(args[0]);
 					UUID uuid = target.getUniqueId();
+					
 					File userFile = new File(Jagglessentials.UserDir + File.separator, getUUID(sender, target) + ".yml");
 					YamlConfiguration userInfo = new YamlConfiguration();
+					
+					Jagglessentials.uuid = new File(plugin.getDataFolder(), "uuid.yml");
+					YamlConfiguration uuidFile = new YamlConfiguration();
 					
 					if(sender.hasPermission("je.seen.normal")) {
 						
 						if(!target.isOnline()) {
 							seenTop(sender);
 							
-							JECommand.msg(sender, "&6Status: &cOffline");
-							JECommand.msg(sender, "&6UUID:&e " + getUUID(sender, target));
-							JECommand.msg(sender, "&6Known Aliases: &e" + getAliases(sender, target));;
-							JECommand.msg(sender, "&6Last Online: " + target.getLastPlayed());
+							try {
+								uuidFile.load(Jagglessentials.uuid);
+								String offUuid = uuidFile.getString(target.getName());
+								String aliases = uuidFile.getStringList("known-aliases").toString().replace("[", "").replace("]", "");
+								
+								JECommand.msg(sender, "&6Status: &cOffline");
+								JECommand.msg(sender, "&6UUID:&e " + offUuid);
+								JECommand.msg(sender, "&6Known Aliases: &e" + aliases);
+								JECommand.msg(sender, "&6Last Online: " + target.getLastPlayed());
+							
+							} catch(IOException | InvalidConfigurationException e1) {
+								e1.printStackTrace();
+							}
 							
 							seenBot(sender);
 							
 						} else {
 							seenTop(sender);
 							
-							JECommand.msg(sender, "&6Status: &eOnline");
+							JECommand.msg(sender, "&6Status: &aOnline");
 							JECommand.msg(sender, "&6UUID:&e " + uuid);
 							JECommand.msg(sender, "&6Known Aliases: &e" + getAliases(sender, target));
 							
@@ -66,24 +79,26 @@ public class Seen implements CommandExecutor {
 					} else if(sender.hasPermission("je.seen.staff")) {
 						
 						if(!target.isOnline()) {
-							seenTop(sender);
-							
-							JECommand.msg(sender, "&6Status: &cOffline");
-							JECommand.msg(sender, "&6UUID:&e " + getUUID(sender, target));
-							JECommand.msg(sender, "&6Known Aliases: &e" + getAliases(sender, target));
-							JECommand.msg(sender, "&6Last Online:&e " + target.getLastPlayed());
-							if(sender.hasPermission("je.seen.ip")) {
-								try {
-									
+							try {
+								uuidFile.load(Jagglessentials.uuid);
+								String offUuid = uuidFile.getString(target.getName());
+								String aliases = uuidFile.getStringList("known-aliases").toString().replace("[", "").replace("]", "");
+								
+								seenTop(sender);
+								
+								JECommand.msg(sender, "&6Status: &cOffline");
+								JECommand.msg(sender, "&6UUID:&e " + offUuid);
+								JECommand.msg(sender, "&6Known Aliases: &e" + aliases);
+								JECommand.msg(sender, "&6Last Online:&e " + target.getLastPlayed());
+								if(sender.hasPermission("je.seen.ip")) {
 									userInfo.load(userFile);
-									JECommand.msg(sender, "&6Last Known IP:&e " + userInfo.get("last-login-ip"));
-								} catch(IOException | InvalidConfigurationException e) {
-									e.printStackTrace();
+									JECommand.msg(sender, "&6Last Known IP:&e " + userInfo.get("last-seen.ip"));
 								}
+								
+								seenBot(sender);
+							} catch (IOException | InvalidConfigurationException e) {
+								e.printStackTrace();
 							}
-							
-							seenBot(sender);
-							
 						} else {
 							seenTop(sender);
 							
@@ -113,13 +128,13 @@ public class Seen implements CommandExecutor {
 	}
 	
 	private void seenTop(CommandSender sender) {
-		sender.sendMessage(Log.ColorMessage("&6+------&bUser&6--&bInfo&6------+"));
+		sender.sendMessage(Log.ColorMessage("&6+----------&bUser&6--&bInfo&6----------+"));
 	}
 	
 	private void seenBot(CommandSender sender) {
 		PluginDescriptionFile pdFile = plugin.getDescription();
 		String ver = pdFile.getVersion();
-		sender.sendMessage(Log.ColorMessage("&6+---&b[JE]&6-&bv" + ver + "&6---+"));
+		sender.sendMessage(Log.ColorMessage("&6+-------&b[JE]&6-&bv" + ver + "&6-------+"));
 	}
 	
 	private UUID getUUID(CommandSender sender, OfflinePlayer target) {
@@ -140,7 +155,7 @@ public class Seen implements CommandExecutor {
 		try {
 			userFile.load(f);
 			
-			String aliases = userFile.getStringList("known-aliases").toString();
+			String aliases = userFile.getStringList("known-aliases").toString().replace("[", "").replace("]", "");
 			return aliases;
 		} catch (IOException | InvalidConfigurationException e) {
 			e.printStackTrace();

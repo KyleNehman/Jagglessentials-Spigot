@@ -24,6 +24,21 @@ public class PlayerLogin implements Listener {
 	
 	@EventHandler
 	public void onLogin(PlayerJoinEvent e) {
+		Jagglessentials.uuid = new File(plugin.getDataFolder(), "uuid.yml");
+		YamlConfiguration uuidFile = new YamlConfiguration();
+		
+		if(!uuidFile.contains(e.getPlayer().getName())) {
+			try {
+				uuidFile.load(Jagglessentials.uuid);
+				
+				uuidFile.createSection(e.getPlayer().getName());
+				uuidFile.set(e.getPlayer().getName(), e.getPlayer().getUniqueId().toString());
+				
+				uuidFile.save(Jagglessentials.uuid);
+			} catch (IOException | InvalidConfigurationException e1) {
+				e1.printStackTrace();
+			}
+		}
 		
 		UUID uuid = e.getPlayer().getUniqueId();
 		File newUser = new File(Jagglessentials.UserDir + File.separator, uuid + ".yml");
