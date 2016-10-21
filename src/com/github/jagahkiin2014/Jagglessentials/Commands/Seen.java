@@ -2,7 +2,6 @@ package com.github.jagahkiin2014.Jagglessentials.Commands;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -13,6 +12,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import com.github.jagahkiin2014.Jagglessentials.Jagglessentials;
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
@@ -59,16 +62,16 @@ public class Seen implements CommandExecutor {
 			
 			JECommand.msg(sender, "&6Status: &aOnline");
 			JECommand.msg(sender, "&6UUID:&e " + target.getUniqueId());
-			JECommand.msg(sender, "&6Known Aliases: &e" + getAliases(sender, target));
 			
 			seenBot(sender);
 			
 		} else {
+
 			seenTop(sender);
 		
 			JECommand.msg(sender, "&6Status: &cOffline");
 			JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(args));
-			JECommand.msg(sender, "&6Last Online: ");
+			getTimeSince(sender, args);
 			
 			seenBot(sender);
 		}
@@ -87,8 +90,8 @@ public class Seen implements CommandExecutor {
 				
 				JECommand.msg(sender, "&6Status: &aOnline");
 				JECommand.msg(sender, "&6UUID:&e " + target.getUniqueId());
-				JECommand.msg(sender, "&6Known Aliases: &e" + getAliases(sender, target));
-				JECommand.msg(sender, "&6IP Address:&e " + target.getServer().getIp());
+				getAliases(sender, args);
+				JECommand.msg(sender, "&6IP Address:&e " + target.getAddress().getAddress().getHostAddress().toString().replace("/", ""));
 				JECommand.msg(sender, "");
 				JECommand.msg(sender, "&6+------------&bHistory&6------------+");
 				JECommand.msg(sender, "&6Kicks:&e " + userInfo.getStringList("history.kicks").size());
@@ -106,17 +109,15 @@ public class Seen implements CommandExecutor {
 				
 				File userFile = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(args) + ".yml");
 				YamlConfiguration userInfo = new YamlConfiguration();
-				
-				String aliases = userInfo.getStringList("known-aliases").toString().replace("[", "").replace("]", "");
+				userInfo.load(userFile);
 				
 				seenTop(sender);
 				
 				JECommand.msg(sender, "&6Status: &cOffline");
 				JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(args));
-				JECommand.msg(sender, "&6Known Aliases: &e" + aliases);
-				JECommand.msg(sender, "&6Last Online:&e ");
+				getAliases(sender, args);
+				getTimeSince(sender, args);
 				if(sender.hasPermission("je.seen.ip")) {
-					userInfo.load(userFile);
 					JECommand.msg(sender, "&6Last Known IP:&e " + userInfo.get("last-seen.ip"));
 				}
 				
@@ -133,19 +134,45 @@ public class Seen implements CommandExecutor {
 		sender.sendMessage(Log.ColorMessage("&6+-------&b[JE]&6-&bv" + ver + "&6-------+"));
 	}
 	
-	private String getAliases(CommandSender sender, Player target) {
-		UUID uuid = target.getUniqueId();
-		File f = new File(Jagglessentials.UserDir + File.separator, uuid + ".yml");
+	private void getAliases(CommandSender sender, String target) {
+		File f = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(target) + ".yml");
 		YamlConfiguration userFile = new YamlConfiguration();
 		
 		try {
 			userFile.load(f);
 			
 			String aliases = userFile.getStringList("known-aliases").toString().replace("[", "").replace("]", "");
-			return aliases;
+			JECommand.msg(sender, "&6Known Aliases: &e" + aliases);
 		} catch (IOException | InvalidConfigurationException e) {
 			e.printStackTrace();
 		}
-		return null;
+	}
+	
+	private void getTimeSince(CommandSender sender, String target) {
+		File userFile = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(target) + ".yml");
+		YamlConfiguration userInfo = new YamlConfiguration();
+
+		try {
+			userInfo.load(userFile);
+			
+			DateTime then = new DateTime(userInfo.getLong("last-seen.time"));
+			DateTime now = new DateTime();
+			Period period = new Period(then, now);
+			
+			PeriodFormatter formatter = new PeriodFormatterBuilder()
+					.appendYears().appendSuffix(" year, ", " years, ")
+					.appendMonths().appendSuffix(" month, ", " months, ")
+					.appendWeeks().appendSuffix(" week, ", " weeks, ")
+					.appendDays().appendSuffix(" day, ", " days, ")
+					.appendHours().appendSuffix(" hour, ", " hours, ")
+					.appendMinutes().appendSuffix(" minute, ", " minutes ")
+					.appendSeconds().appendSuffix(" second", " seconds").printZeroNever().toFormatter();
+			
+			String time = formatter.print(period);
+			JECommand.msg(sender, "&6Last online:&a " + time + " ago.");
+			
+		} catch (IOException | InvalidConfigurationException e) {
+			e.printStackTrace();
+		}
 	}
 }
