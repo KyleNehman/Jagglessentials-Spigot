@@ -27,4 +27,5 @@ permissions:
     je.seen.staff:
         description: Provides perms to player info for generally staff players.
         default: op
-        
+    je.seen.ip:
+        description: Provides perms to player info to see a player's IP address.
