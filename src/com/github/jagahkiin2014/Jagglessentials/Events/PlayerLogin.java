@@ -9,7 +9,7 @@ import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
@@ -22,7 +22,7 @@ public class PlayerLogin implements Listener {
 	}
 	
 	@EventHandler
-	public void onLogin(PlayerLoginEvent e) {
+	public void onLogin(PlayerJoinEvent e) {
 		UUID uuid = e.getPlayer().getUniqueId();
 		File userDir = new File(plugin.getDataFolder() + "/Users");
 		File[] files = userDir.listFiles();
@@ -36,7 +36,7 @@ public class PlayerLogin implements Listener {
 				userFile.set("known-aliases", e.getPlayer().getName());
 				
 				userFile.createSection("last-known-ip");
-				userFile.set("last-known-ip", e.getPlayer().getAddress().getAddress().getHostAddress().replaceAll("/", ""));
+				userFile.set("last-known-ip", e.getPlayer().getAddress().getAddress().getHostAddress().toString().replaceAll("/", ""));
 				
 				userFile.createSection("positions");
 				userFile.set("positions.login.world", e.getPlayer().getWorld().getName());
@@ -45,10 +45,10 @@ public class PlayerLogin implements Listener {
 				userFile.set("positions.login.z", e.getPlayer().getLocation().getBlockZ());
 				
 				userFile.createSection("history");
-				userFile.set("kicks", "");
-				userFile.set("tempbans", "");
-				userFile.set("bans", "");
-				userFile.set("unbans", "");
+				userFile.set("history.kicks", "");
+				userFile.set("history.tempbans", "");
+				userFile.set("history.bans", "");
+				userFile.set("history.unbans", "");
 				
 				userFile.createSection("misc");
 				userFile.set("misc.god", false);
@@ -74,6 +74,8 @@ public class PlayerLogin implements Listener {
 					e1.printStackTrace();
 				}
 			}
+			
+			userFile.set("last-known-ip", e.getPlayer().getAddress().getAddress().getHostAddress().toString().replaceAll("/", ""));
 		}
 	}
 }
