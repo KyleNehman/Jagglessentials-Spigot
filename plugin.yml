@@ -13,10 +13,12 @@ commands:
 permissions:
     je.*:
         description: Provides perms to all commands.
+        default: op
         children:
             je.seen.*: true
     je.seen.*:
         description: Provides perms to all seen info.
+        default: op
         children:
             je.seen.normal: true
             je.seen.staff: true
@@ -24,4 +26,5 @@ permissions:
         description: Provides perms to player info for generally normal players.
     je.seen.staff:
         description: Provides perms to player info for generally staff players.
+        default: op
         

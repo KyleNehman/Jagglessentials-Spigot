@@ -2,6 +2,7 @@ package com.github.jagahkiin2014.Jagglessentials.Events;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.UUID;
 
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -25,8 +26,13 @@ public class PlayerLogout implements Listener {
 		
 		File newUser = new File(userDir + "/" + uuid + ".yml");
 		YamlConfiguration userFile = new YamlConfiguration();
+		
+		long now = Calendar.getInstance().getTimeInMillis();
+		
 		try {
 			userFile.load(newUser);
+			
+			userFile.set("last-seen.time", now);
 			
 			userFile.set("positions.logout.world", e.getPlayer().getWorld().getName());
 			userFile.set("positions.logout.x", e.getPlayer().getLocation().getBlockX());

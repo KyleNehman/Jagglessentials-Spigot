@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
 
+import com.github.jagahkiin2014.Jagglessentials.Jagglessentials;
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
 
 public class PlayerLogin implements Listener {
@@ -23,20 +24,20 @@ public class PlayerLogin implements Listener {
 	
 	@EventHandler
 	public void onLogin(PlayerJoinEvent e) {
-		UUID uuid = e.getPlayer().getUniqueId();
-		File userDir = new File(plugin.getDataFolder() + "/Users");
-		File[] files = userDir.listFiles();
 		
-		if(!files.equals(uuid + ".yml")) {
-			File newUser = new File(userDir + "/" + uuid + ".yml");
-			YamlConfiguration userFile = new YamlConfiguration();
+		UUID uuid = e.getPlayer().getUniqueId();
+		File newUser = new File(Jagglessentials.UserDir + File.separator, uuid + ".yml");
+		YamlConfiguration userFile = new YamlConfiguration();
+		
+		if(!newUser.exists()) {
+
 			Log.LogMessage("User file not found! Creating....", plugin.getServer().getConsoleSender());
 			try {
 				userFile.createSection("known-aliases");
 				userFile.set("known-aliases", e.getPlayer().getName());
 				
-				userFile.createSection("last-known-ip");
-				userFile.set("last-known-ip", e.getPlayer().getAddress().getAddress().getHostAddress().toString().replaceAll("/", ""));
+				userFile.createSection("last-seen");
+				userFile.set("last-seen.ip", e.getPlayer().getAddress().getAddress().getHostAddress().toString().replaceAll("/", ""));
 				
 				userFile.createSection("positions");
 				userFile.set("positions.login.world", e.getPlayer().getWorld().getName());
@@ -61,21 +62,19 @@ public class PlayerLogin implements Listener {
 			}
 			Log.LogMessage("User file created for " + e.getPlayer().getUniqueId() + " (" + e.getPlayer().getName() + ")", plugin.getServer().getConsoleSender());
 		} else {
-			File newUser = new File(userDir + "/" + uuid + ".yml");
-			YamlConfiguration userFile = new YamlConfiguration();
-			if(!userFile.getStringList("known-aliases").contains(e.getPlayer().getName())) {
-				try {
-					userFile.load(newUser);
+			try {
+				userFile.load(newUser);
+				if(userFile.getStringList("known-aliases").isEmpty() || !userFile.getStringList("known-aliases").contains(e.getPlayer().getName())) {
 					List<String> names = userFile.getStringList("known-aliases");
 					names.add(e.getPlayer().getName());
 					userFile.set("known-aliases", names);
 					userFile.save(newUser);
-				} catch (IOException | InvalidConfigurationException e1) {
-					e1.printStackTrace();
 				}
+			} catch (IOException | InvalidConfigurationException e1) {
+				e1.printStackTrace();
 			}
 			
-			userFile.set("last-known-ip", e.getPlayer().getAddress().getAddress().getHostAddress().toString().replaceAll("/", ""));
+			userFile.set("last-seen.ip", e.getPlayer().getAddress().getAddress().getHostAddress().toString().replaceAll("/", ""));
 		}
 	}
 }
