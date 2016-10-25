@@ -51,10 +51,12 @@ public class BanIP implements CommandExecutor {
 							logyml.load(logs);
 							DateFormat df = new SimpleDateFormat("dd-MM-yy");
 							Date obj = new Date();
-							logyml.set(df.format(obj) + "." + args[0] + ".Type", "Ban");
-							logyml.set(df.format(obj) + "." + args[0] + ".Duration", "inf");
-							logyml.set(df.format(obj) + "." + args[0] + ".Banner", sender.getName());
-							logyml.set(df.format(obj) + "." + args[0] + ".Reason", "No reason specified.");
+							int num1 = logyml.getStringList(df.format(obj) + "." + args[0]).size();
+							
+							logyml.set(df.format(obj) + "." + args[0] + "." + num1 + ".Type", "Ban");
+							logyml.set(df.format(obj) + "." + args[0] + "." + num1 + ".Duration", "inf");
+							logyml.set(df.format(obj) + "." + args[0] + "." + num1 + ".Banner", sender.getName());
+							logyml.set(df.format(obj) + "." + args[0] + "." + num1 + ".Reason", "No reason specified.");
 							
 							logyml.save(logs);
 						} catch(IOException | InvalidConfigurationException e) {
@@ -93,10 +95,12 @@ public class BanIP implements CommandExecutor {
 							logyml.load(logs);
 							DateFormat df = new SimpleDateFormat("dd-MM-yy");
 							Date obj = new Date();
-							logyml.set(df.format(obj) + "." + args[0] + ".Type", "Ban");
-							logyml.set(df.format(obj) + "." + args[0] + ".Duration", "inf");
-							logyml.set(df.format(obj) + "." + args[0] + ".Banner", sender.getName());
-							logyml.set(df.format(obj) + "." + args[0] + ".Reason", allArgs);
+							int num1 = logyml.getStringList(df.format(obj) + "." + args[0]).size();
+							
+							logyml.set(df.format(obj) + "." + args[0] + "." + num1 + ".Type", "Ban");
+							logyml.set(df.format(obj) + "." + args[0] + "." + num1 + ".Duration", "inf");
+							logyml.set(df.format(obj) + "." + args[0] + "." + num1 + ".Banner", sender.getName());
+							logyml.set(df.format(obj) + "." + args[0] + "." + num1 + ".Reason", allArgs);
 							
 							logyml.save(logs);
 						} catch(IOException | InvalidConfigurationException e) {

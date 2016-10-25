@@ -63,10 +63,12 @@ public class Ban implements CommandExecutor {
 						
 						DateFormat df = new SimpleDateFormat("dd-MM-yy");
 						Date obj = new Date();
-						logyml.set(df.format(obj) + "." + target.getName() + ".Type", "Ban");
-						logyml.set(df.format(obj) + "." + target.getName() + ".Duration", "inf");
-						logyml.set(df.format(obj) + "." + target.getName() + ".Banner", sender.getName());
-						logyml.set(df.format(obj) + "." + target.getName() + ".Reason", "No reason specified.");
+						int num1 = logyml.getStringList(df.format(obj) + "." + target.getName()).size();
+						
+						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Type", "Ban");
+						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Duration", "inf");
+						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Banner", sender.getName());
+						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Reason", "No reason specified.");
 						
 						logyml.save(logs);
 						
@@ -113,10 +115,12 @@ public class Ban implements CommandExecutor {
 						
 						DateFormat df = new SimpleDateFormat("dd-MM-yy");
 						Date obj = new Date();
-						logyml.set(df.format(obj) + "." + target.getName() + ".Type", "Ban");
-						logyml.set(df.format(obj) + "." + target.getName() + ".Duration", "inf");
-						logyml.set(df.format(obj) + "." + target.getName() + ".Banner", sender.getName());
-						logyml.set(df.format(obj) + "." + target.getName() + ".Reason", allArgs);
+						int num1 = logyml.getStringList(df.format(obj) + "." + target.getName()).size();
+						
+						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Type", "Ban");
+						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Duration", "inf");
+						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Banner", sender.getName());
+						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Reason", allArgs);
 						
 						logyml.save(logs);
 						
