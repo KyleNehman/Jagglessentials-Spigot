@@ -14,7 +14,9 @@ public class Give implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		
+		if(cmdLabel.equalsIgnoreCase("give")) {
+			
+		}
 		return false;
 	}
 }

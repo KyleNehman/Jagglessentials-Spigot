@@ -38,42 +38,46 @@ public class Ban implements CommandExecutor {
 					
 				} else if(args.length == 1) {
 					Player target = Bukkit.getPlayer(args[0]);
-					Bukkit.getBanList(Type.NAME).addBan(target.getName(), "No reason specified.", null, sender.getName());
-					if(target != null)
-						target.kickPlayer(args[0] + " was banned from the server.");
+					if(target != null) {
+						Bukkit.getBanList(Type.NAME).addBan(target.getName(), "No reason specified.", null, sender.getName());
+						target.kickPlayer("You were banned from this server.");
 					
-					try {
-						UUID uuid = UUIDFetcher.getUUID(args[0]);
-						File userFile = new File(Jagglessentials.UserDir, uuid + ".yml");
-						YamlConfiguration userInfo = new YamlConfiguration();
-						long now = Calendar.getInstance().getTimeInMillis();
+						try {
+							UUID uuid = target.getUniqueId();
+							File userFile = new File(Jagglessentials.UserDir, uuid + ".yml");
+							YamlConfiguration userInfo = new YamlConfiguration();
+							long now = Calendar.getInstance().getTimeInMillis();
+							
+							userInfo.load(userFile);
+							
+							int num = userInfo.getStringList("history.bans").size();
+							
+							userInfo.set("history.bans." + num + ".date", now);
+							userInfo.set("history.bans." + num + ".reason", "No reason specified.");
+							userInfo.set("history.bans." + num + ".banner", sender.getName());
+							userInfo.save(userFile);
+							
+							File logs = new File(plugin.getDataFolder(), "banAndKickHistory.yml");
+							YamlConfiguration logyml = new YamlConfiguration();
+							logyml.load(logs);
+							
+							DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+							Date obj = new Date();
+							int num1 = logyml.getStringList(df.format(obj) + "." + target.getName()).size();
+							
+							logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Type", "Ban");
+							logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Duration", "inf");
+							logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Banner", sender.getName());
+							logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Reason", "No reason specified.");
+							
+							logyml.save(logs);
+							
+						} catch (IOException | InvalidConfigurationException e) {
+							e.printStackTrace();
+						} 
+					} else if(target == null) {
 						
-						userInfo.load(userFile);
 						
-						int num = userInfo.getStringList("history.bans").size();
-						
-						userInfo.set("history.bans." + num + ".date", now);
-						userInfo.set("history.bans." + num + ".reason", "No reason specified.");
-						userInfo.set("history.bans." + num + ".banner", sender.getName());
-						userInfo.save(userFile);
-						
-						File logs = new File(plugin.getDataFolder(), "banAndKickHistory.yml");
-						YamlConfiguration logyml = new YamlConfiguration();
-						logyml.load(logs);
-						
-						DateFormat df = new SimpleDateFormat("dd-MM-yy");
-						Date obj = new Date();
-						int num1 = logyml.getStringList(df.format(obj) + "." + target.getName()).size();
-						
-						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Type", "Ban");
-						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Duration", "inf");
-						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Banner", sender.getName());
-						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Reason", "No reason specified.");
-						
-						logyml.save(logs);
-						
-					} catch (IOException | InvalidConfigurationException e) {
-						e.printStackTrace();
 					}
 					
 					for(Player players : Bukkit.getOnlinePlayers()) {
@@ -90,42 +94,46 @@ public class Ban implements CommandExecutor {
 					}
 					String allArgs = sb.toString().trim();
 					
-					Bukkit.getBanList(Type.NAME).addBan(target.getName(), allArgs, null, sender.getName());
-					if(target != null)
-						target.kickPlayer(args[0] + " was banned from the server.");
+					if(target != null) {
+						Bukkit.getBanList(Type.NAME).addBan(target.getName(), allArgs, null, sender.getName());
+						target.kickPlayer("You were banned from this server.");
 					
-					try {
-						UUID uuid = UUIDFetcher.getUUID(args[0]);
-						File userFile = new File(Jagglessentials.UserDir, uuid + ".yml");
-						YamlConfiguration userInfo = new YamlConfiguration();
-						long now = Calendar.getInstance().getTimeInMillis();
+						try {
+							UUID uuid = UUIDFetcher.getUUID(args[0]);
+							File userFile = new File(Jagglessentials.UserDir, uuid + ".yml");
+							YamlConfiguration userInfo = new YamlConfiguration();
+							long now = Calendar.getInstance().getTimeInMillis();
+							
+							userInfo.load(userFile);
+							
+							int num = userInfo.getStringList("history.bans").size();
+							
+							userInfo.set("history.bans." + num + ".date", now);
+							userInfo.set("history.bans." + num + ".reason", allArgs);
+							userInfo.set("history.bans." + num + ".banner", sender.getName());
+							userInfo.save(userFile);
+							
+							File logs = new File(plugin.getDataFolder(), "banAndKickHistory.yml");
+							YamlConfiguration logyml = new YamlConfiguration();
+							logyml.load(logs);
+							
+							DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+							Date obj = new Date();
+							int num1 = logyml.getStringList(df.format(obj) + "." + target.getName()).size();
+							
+							logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Type", "Ban");
+							logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Duration", "inf");
+							logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Banner", sender.getName());
+							logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Reason", allArgs);
+							
+							logyml.save(logs);
+							
+						} catch (IOException | InvalidConfigurationException e) {
+							e.printStackTrace();
+						}
+					} else if(target == null) {
 						
-						userInfo.load(userFile);
 						
-						int num = userInfo.getStringList("history.bans").size();
-						
-						userInfo.set("history.bans." + num + ".date", now);
-						userInfo.set("history.bans." + num + ".reason", allArgs);
-						userInfo.set("history.bans." + num + ".banner", sender.getName());
-						userInfo.save(userFile);
-						
-						File logs = new File(plugin.getDataFolder(), "banAndKickHistory.yml");
-						YamlConfiguration logyml = new YamlConfiguration();
-						logyml.load(logs);
-						
-						DateFormat df = new SimpleDateFormat("dd-MM-yy");
-						Date obj = new Date();
-						int num1 = logyml.getStringList(df.format(obj) + "." + target.getName()).size();
-						
-						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Type", "Ban");
-						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Duration", "inf");
-						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Banner", sender.getName());
-						logyml.set(df.format(obj) + "." + target.getName() + "." + num1 + ".Reason", allArgs);
-						
-						logyml.save(logs);
-						
-					} catch (IOException | InvalidConfigurationException e) {
-						e.printStackTrace();
 					}
 					
 					for (Player players : Bukkit.getOnlinePlayers()) {

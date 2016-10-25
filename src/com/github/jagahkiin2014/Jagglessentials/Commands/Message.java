@@ -14,7 +14,9 @@ public class Message implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		
+		if(cmdLabel.equalsIgnoreCase("message")) {
+			
+		}
 		return false;
 	}
 }

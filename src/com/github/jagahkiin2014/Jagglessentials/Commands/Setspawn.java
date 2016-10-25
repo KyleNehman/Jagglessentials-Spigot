@@ -14,7 +14,9 @@ public class Setspawn implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		
+		if(cmdLabel.equalsIgnoreCase("setspawn")) {
+			
+		}
 		return false;
 	}
 }

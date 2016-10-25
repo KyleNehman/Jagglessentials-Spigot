@@ -8,7 +8,5 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/Users/pacma/Downloads/joda-time-2.9.4/joda-time-2.9.4-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Patrick/Desktop/Minecraft Mods &amp; Plugins/Spigot/1.10.2/spigot-1.10.2.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Patrick/Desktop/Minecraft Mods &amp; Plugins/Spigot/1.10.2/joda-time-2.9.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

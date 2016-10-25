@@ -14,7 +14,9 @@ public class Mute implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String cmdLabel, String[] args) {
-		
+		if(cmdLabel.equalsIgnoreCase("mute")) {
+			
+		}
 		return false;
 	}
 }
