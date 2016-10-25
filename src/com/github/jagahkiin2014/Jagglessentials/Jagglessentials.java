@@ -11,6 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.jagahkiin2014.Jagglessentials.Commands.Announce;
 import com.github.jagahkiin2014.Jagglessentials.Commands.Ban;
+import com.github.jagahkiin2014.Jagglessentials.Commands.BanIP;
 import com.github.jagahkiin2014.Jagglessentials.Commands.Clear;
 import com.github.jagahkiin2014.Jagglessentials.Commands.ClearBanKickHistory;
 import com.github.jagahkiin2014.Jagglessentials.Commands.Feed;
@@ -101,6 +102,7 @@ public class Jagglessentials extends JavaPlugin {
 	private void registerCommands() {
 		Announce announce = new Announce(this);
 		Ban ban = new Ban(this);
+		BanIP banip = new BanIP(this);
 		Clear clear = new Clear(this);
 		ClearBanKickHistory cbkh = new ClearBanKickHistory(this);
 		Feed feed = new Feed(this);
@@ -125,6 +127,7 @@ public class Jagglessentials extends JavaPlugin {
 		
 		getCommand("announce").setExecutor(announce);
 		getCommand("ban").setExecutor(ban);
+		getCommand("banip").setExecutor(banip);
 		getCommand("clear").setExecutor(clear);
 		getCommand("clearhistory").setExecutor(cbkh);
 		getCommand("feed").setExecutor(feed);

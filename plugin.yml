@@ -11,6 +11,8 @@ commands:
         aliases: [say, broadcast, notice]
     ban:
         description: Ban a player from the server permanently.
+    banip:
+        description: Ban an IP from the server.
     clear:
         description: Clear the inventory of player.
         aliases: [clearinventory, ci]
