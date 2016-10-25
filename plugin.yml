@@ -69,6 +69,7 @@ permissions:
         default: op
         children:
             je.seen.*: true
+            je.ban: true
     je.seen.*:
         description: Provides perms to all seen info.
         default: op
@@ -82,3 +83,5 @@ permissions:
         default: op
     je.seen.ip:
         description: Provides perms to player info to see a player's IP address.
+    je.ban:
+        description: Provides perms to player banning.

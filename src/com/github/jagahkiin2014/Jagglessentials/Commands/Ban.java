@@ -74,6 +74,12 @@ public class Ban implements CommandExecutor {
 						e.printStackTrace();
 					}
 					
+					for(Player players : Bukkit.getOnlinePlayers()) {
+						if(players.hasPermission("je.bannotify")) {
+							JECommand.msg(players, "&c" + target.getName() + "&6 was banned.");
+						}
+					}
+					
 				} else if(args.length > 1) {
 					Player target = Bukkit.getPlayer(args[0]);
 					StringBuilder sb = new StringBuilder();
@@ -116,6 +122,13 @@ public class Ban implements CommandExecutor {
 						
 					} catch (IOException | InvalidConfigurationException e) {
 						e.printStackTrace();
+					}
+					
+					for (Player players : Bukkit.getOnlinePlayers()) {
+						if(players.hasPermission("je.bannotify")) {
+							JECommand.msg(players, "&c" + target.getName() + " &6was banned.");
+							JECommand.msg(players, "&6Reason: &c" + allArgs);
+						}
 					}
 					
 				}
