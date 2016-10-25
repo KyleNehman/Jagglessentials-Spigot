@@ -6,9 +6,60 @@ website: https://github.com/Jagahkiin2014/Jagglessentials-Spigot
 main: com.github.jagahkiin2014.Jagglessentials.Jagglessentials
 
 commands:
+    announce:
+        description: Make a serverwide announcement.
+        aliases: [say, broadcast, notice]
+    ban:
+        description: Ban a player from the server permanently.
+    clear:
+        description: Clear the inventory of player.
+        aliases: [clearinventory, ci]
+    clearhistory:
+        description: Clear the ban and kick history of a player.
+    feed:
+        description: Feed a player.
+    fly:
+        description: Toggle fly for a player.
+        aliases: soar
+    gamemode:
+        description: Change the gamemode of a player.
+        aliases: [gm, setgamemode, setgm]
+    give:
+        description: Give an item to a player.
+        aliases: [giveitem, item, i]
+    god:
+        description: Toggle god mode for a player.
+    heal:
+        description: Heal a player.
+    kick:
+        description: Kick a player from the server.
+        aliases: boot
+    mail:
+        description: Mail a player a message.
+    motd:
+        description: Message of the day.
+    mute:
+        description: Mute a player.
+    onplayers:
+        description: List all online players.
     seen:
         description: Provides information on a player.
         aliases: [playerinfo, whois, uuid]
+    sethome:
+        description: Set a home.
+    setspawn:
+        description: Set spawn.
+    spawn:
+        description: Teleport to spawn.
+    speed:
+        description: Change the speed of a player.
+    tban:
+        description: Temporarily ban a player.
+        aliases: tempban
+    time:
+        description: Get/set time of day.
+    weather:
+        description: Get/set weather.
         
 permissions:
     je.*:
