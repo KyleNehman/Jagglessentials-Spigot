@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.github.jagahkiin2014.Jagglessentials.Jagglessentials;
-import com.github.jagahkiin2014.Jagglessentials.Utils.UUIDFetcher;
 
 public class Kick implements CommandExecutor {
 	
