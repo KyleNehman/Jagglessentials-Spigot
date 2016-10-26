@@ -13,8 +13,6 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="C:/Users/pacma/Desktop/Minecraft Mods &amp; Plugins/Spigot/1.10.2/joda-time-2.9.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="C:/Users/pacma/Desktop/Minecraft Mods &amp; Plugins/Spigot/1.10.2/spigot-1.10.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/pacma/Desktop/Minecraft Mods &amp; Plugins/Spigot/1.10.2/activation.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Users/pacma/Desktop/Minecraft Mods &amp; Plugins/Spigot/1.10.2/javax.mail-1.5.6.jar"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_111"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
