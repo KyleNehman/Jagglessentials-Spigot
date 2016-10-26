@@ -2,9 +2,7 @@ package com.github.jagahkiin2014.Jagglessentials;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -26,7 +24,6 @@ public class Jagglessentials extends JavaPlugin {
 	public List<String> authors;
 	
 	public static File UserDir;
-	public static HashMap<String, UUID> uuid = new HashMap<String, UUID>();
 	
 	@Override
 	public void onDisable() {
