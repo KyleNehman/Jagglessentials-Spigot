@@ -10,26 +10,30 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.UUID;
 
-import org.bukkit.plugin.Plugin;
+import org.bukkit.command.CommandSender;
+
+import com.github.jagahkiin2014.Jagglessentials.Jagglessentials;
+import com.github.jagahkiin2014.Jagglessentials.Commands.JECommand;
 
 public class UUIDFetcher {
 	
-	static Plugin plugin;
 	public static HashMap<String, UUID> uuid = new HashMap<String, UUID>();
 	
-	public static UUID getUUID(String playerName) {
+	public static UUID getUUID(CommandSender sender, String playerName) {
 		if(uuid.containsKey(playerName)) {
-			
+			UUID retrieve = uuid.get(playerName);
+			return retrieve;
 		}
+		JECommand.msg(sender, "&cError: No record of player.");
 		return null;
 	}
 	
 	public static void saveUUIDHashmap() {
-		File file = new File(plugin.getDataFolder(), "");
+		File file = new File(Jagglessentials.BackupDir, "uuidbackup.txt");
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(file));
 			for(String p:uuid.keySet()) {
-				bw.write(p + "," + uuid.get(p));
+				bw.write(p + "," + uuid.get(p).toString());
 				bw.newLine();
 			}
 			bw.flush();
@@ -40,7 +44,7 @@ public class UUIDFetcher {
 	}
 	
 	public static void loadUUIDHashmap() {
-		File file = new File(plugin.getDataFolder(), "");
+		File file = new File(Jagglessentials.BackupDir, "uuidbackup.txt");
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 			String l;
@@ -52,6 +56,7 @@ public class UUIDFetcher {
 				uuid.put(p, u);
 			}
 			br.close();
+			file.delete();
 			
 		} catch (IOException e) {
 			e.printStackTrace();

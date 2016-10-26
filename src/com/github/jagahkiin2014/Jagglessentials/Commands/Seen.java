@@ -70,7 +70,7 @@ public class Seen implements CommandExecutor {
 			seenTop(sender);
 		
 			JECommand.msg(sender, "&6Status: &cOffline");
-			JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(args));
+			JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(sender, args));
 			getTimeSince(sender, args);
 			
 			seenBot(sender);
@@ -102,19 +102,19 @@ public class Seen implements CommandExecutor {
 				
 				seenBot(sender);
 			} catch (IOException | InvalidConfigurationException e) {
-				e.printStackTrace();
+				
 			}
 		} else {
 			try {
 				
-				File userFile = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(args) + ".yml");
+				File userFile = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(sender, args) + ".yml");
 				YamlConfiguration userInfo = new YamlConfiguration();
 				userInfo.load(userFile);
 				
 				seenTop(sender);
 				
 				JECommand.msg(sender, "&6Status: &cOffline");
-				JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(args));
+				JECommand.msg(sender, "&6UUID:&e " + UUIDFetcher.getUUID(sender, args));
 				getAliases(sender, args);
 				getTimeSince(sender, args);
 				if(sender.hasPermission("je.seen.ip")) {
@@ -123,7 +123,7 @@ public class Seen implements CommandExecutor {
 				
 				seenBot(sender);
 			} catch (IOException | InvalidConfigurationException e) {
-				e.printStackTrace();
+				
 			}
 		}
 	}
@@ -135,7 +135,7 @@ public class Seen implements CommandExecutor {
 	}
 	
 	private void getAliases(CommandSender sender, String target) {
-		File f = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(target) + ".yml");
+		File f = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(sender, target) + ".yml");
 		YamlConfiguration userFile = new YamlConfiguration();
 		
 		try {
@@ -149,7 +149,7 @@ public class Seen implements CommandExecutor {
 	}
 	
 	private void getTimeSince(CommandSender sender, String target) {
-		File userFile = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(target) + ".yml");
+		File userFile = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(sender, target) + ".yml");
 		YamlConfiguration userInfo = new YamlConfiguration();
 
 		try {

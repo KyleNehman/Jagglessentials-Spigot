@@ -18,21 +18,23 @@ import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogin;
 import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogout;
 import com.github.jagahkiin2014.Jagglessentials.Metrics.MetricsLite;
 import com.github.jagahkiin2014.Jagglessentials.Utils.Log;
+import com.github.jagahkiin2014.Jagglessentials.Utils.UUIDFetcher;
 
 public class Jagglessentials extends JavaPlugin {
 	public String version;
 	public List<String> authors;
 	
-	public static File UserDir;
+	public static File UserDir, BackupDir;
 	
 	@Override
 	public void onDisable() {
-		
+		UUIDFetcher.saveUUIDHashmap();
 	}
 	
 	@Override
 	public void onEnable() {
 		startup();
+		UUIDFetcher.loadUUIDHashmap();
 	}
 	
 	private void startup() {
@@ -67,6 +69,11 @@ public class Jagglessentials extends JavaPlugin {
 			Log.LogMessage("[JE] User directory not found! Creating....", getServer().getConsoleSender());
 			UserDir.mkdir();
 			Log.LogMessage("[JE] User directory created.", getServer().getConsoleSender());
+		}
+		
+		BackupDir = new File(getDataFolder() + "/Backup");
+		if(!BackupDir.exists()) {
+			BackupDir.mkdir();
 		}
 		
 		File logs = new File(getDataFolder(), "banAndKickHistory.yml");

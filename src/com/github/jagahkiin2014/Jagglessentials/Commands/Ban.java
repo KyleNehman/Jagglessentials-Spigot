@@ -19,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.github.jagahkiin2014.Jagglessentials.Jagglessentials;
-import com.github.jagahkiin2014.Jagglessentials.Utils.UUIDFetcher;
 
 public class Ban implements CommandExecutor {
 	
@@ -39,11 +38,11 @@ public class Ban implements CommandExecutor {
 				} else if(args.length == 1) {
 					Player target = Bukkit.getPlayer(args[0]);
 					if(target != null) {
+						UUID uuid = target.getUniqueId();
 						Bukkit.getBanList(Type.NAME).addBan(target.getName(), "No reason specified.", null, sender.getName());
 						target.kickPlayer("You were banned from this server.");
 					
 						try {
-							UUID uuid = target.getUniqueId();
 							File userFile = new File(Jagglessentials.UserDir, uuid + ".yml");
 							YamlConfiguration userInfo = new YamlConfiguration();
 							long now = Calendar.getInstance().getTimeInMillis();
@@ -95,11 +94,11 @@ public class Ban implements CommandExecutor {
 					String allArgs = sb.toString().trim();
 					
 					if(target != null) {
+						UUID uuid = target.getUniqueId();
 						Bukkit.getBanList(Type.NAME).addBan(target.getName(), allArgs, null, sender.getName());
 						target.kickPlayer("You were banned from this server.");
 					
 						try {
-							UUID uuid = UUIDFetcher.getUUID(args[0]);
 							File userFile = new File(Jagglessentials.UserDir, uuid + ".yml");
 							YamlConfiguration userInfo = new YamlConfiguration();
 							long now = Calendar.getInstance().getTimeInMillis();
