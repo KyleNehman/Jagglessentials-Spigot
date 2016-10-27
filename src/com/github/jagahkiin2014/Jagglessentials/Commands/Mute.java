@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import com.github.jagahkiin2014.Jagglessentials.Jagglessentials;
+import com.github.jagahkiin2014.Jagglessentials.Utils.TempTime;
 
 public class Mute implements CommandExecutor {
 	
@@ -20,7 +21,9 @@ public class Mute implements CommandExecutor {
 		if(cmdLabel.equalsIgnoreCase("mute")) {
 			
 			if (sender.hasPermission("je.mute")) {
-				if (args.length == 1) {
+				if(args.length == 0) {
+					JECommand.tooFewArgs(sender);
+				} else if (args.length == 1) {
 					String playerName = args[0];	 // Just for readability
 					String msg;						 // Success message for the muter
 					
@@ -39,7 +42,7 @@ public class Mute implements CommandExecutor {
 					sendMessage(sender, msg);
 					
 				} else if(args.length == 2) {
-					
+					long time = System.currentTimeMillis() + TempTime.time(args[1]);
 					
 				} else if(args.length > 2) {
 					JECommand.tooManyArgs(sender);
