@@ -2,7 +2,10 @@ package com.github.jagahkiin2014.Jagglessentials;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -14,6 +17,7 @@ import com.github.jagahkiin2014.Jagglessentials.Commands.Ban;
 import com.github.jagahkiin2014.Jagglessentials.Commands.BanIP;
 import com.github.jagahkiin2014.Jagglessentials.Commands.Kick;
 import com.github.jagahkiin2014.Jagglessentials.Commands.Seen;
+import com.github.jagahkiin2014.Jagglessentials.Events.PlayerChat;
 import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogin;
 import com.github.jagahkiin2014.Jagglessentials.Events.PlayerLogout;
 import com.github.jagahkiin2014.Jagglessentials.Metrics.MetricsLite;
@@ -25,6 +29,8 @@ public class Jagglessentials extends JavaPlugin {
 	public List<String> authors;
 	
 	public static File UserDir, BackupDir;
+	public static ArrayList<String> muted = new ArrayList<String>();
+	public static HashMap<String, UUID> uuid = new HashMap<String, UUID>();
 	
 	@Override
 	public void onDisable() {
@@ -90,9 +96,11 @@ public class Jagglessentials extends JavaPlugin {
 	private void registerEvents() {
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		
+		PlayerChat pChat = new PlayerChat(this);		
 		PlayerLogin pLogin = new PlayerLogin(this);
 		PlayerLogout pLogout = new PlayerLogout(this);
 		
+		pm.registerEvents(pChat, this);
 		pm.registerEvents(pLogin, this);
 		pm.registerEvents(pLogout, this);
 	}
