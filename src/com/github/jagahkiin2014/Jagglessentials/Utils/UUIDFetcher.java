@@ -28,6 +28,7 @@ public class UUIDFetcher {
 		return null;
 	}
 	
+	// To save player info when server closes
 	public static void saveUUIDHashmap() {
 		File file = new File(Jagglessentials.BackupDir, "uuidbackup.txt");
 		try {
@@ -43,6 +44,7 @@ public class UUIDFetcher {
 		}
 	}
 	
+	// To load player info when server opens
 	public static void loadUUIDHashmap() {
 		File file = new File(Jagglessentials.BackupDir, "uuidbackup.txt");
 		try {

@@ -29,6 +29,7 @@ public class PlayerLogin implements Listener {
 		File newUser = new File(Jagglessentials.UserDir + File.separator, uuid + ".yml");
 		YamlConfiguration userFile = new YamlConfiguration();
 		
+		// Create user file
 		if(!newUser.exists()) {
 
 			Log.LogMessage("User file not found! Creating....", plugin.getServer().getConsoleSender());

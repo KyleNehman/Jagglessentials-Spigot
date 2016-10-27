@@ -9,14 +9,23 @@ public class TempTime {
 	public static Map<String, Long> bans = new HashMap<String, Long>();
 	public static Map<String, Long> mute = new HashMap<String, Long>();
 	
+	// Add player to tempmute hashmap
 	public static void setMuteTime(String name, String time) {
 		mute.put(name, System.currentTimeMillis() + time(time));
 	}
 	
+	// Add player to tempban hashmap
 	public static void setBanTime(String name, String time) {
 		bans.put(name, System.currentTimeMillis() + time(time));
 	}
 	
+	/* For commands that require a time (e.g. tempban, tempmute, etc.)
+	 * 1s = 1 second
+	 * 1m = 1 minute
+	 * 1h = 1 hour
+	 * 1d1h = 1 day, 1 hour
+	 * 88y = 88 years
+	 */
 	public static long time(String time) {
 		if(time.equalsIgnoreCase(""));
 		final char[] fms = {'s', 'm', 'h', 'd', 'w', 'y'};

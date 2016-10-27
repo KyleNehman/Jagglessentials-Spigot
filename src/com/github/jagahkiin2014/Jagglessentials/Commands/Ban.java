@@ -135,6 +135,7 @@ public class Ban implements CommandExecutor {
 						
 					}
 					
+					// Ban notifications if player has permissions
 					for (Player players : Bukkit.getOnlinePlayers()) {
 						if(players.hasPermission("je.bannotify")) {
 							JECommand.msg(players, "&c" + target.getName() + " &6was banned.");

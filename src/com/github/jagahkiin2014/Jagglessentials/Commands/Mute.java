@@ -20,9 +20,9 @@ public class Mute implements CommandExecutor {
 		if(cmdLabel.equalsIgnoreCase("mute")) {
 			
 			if (sender.hasPermission("je.mute")) {
-				if (args.length >= 1) {
+				if (args.length == 1) {
 					String playerName = args[0];	 // Just for readability
-					String msg;						 // Successs message for the muter
+					String msg;						 // Success message for the muter
 					
 					// This gives the ability to toggle mute with one commmand, 
 					// But it could easily be changed to a separate unmute command
@@ -37,8 +37,14 @@ public class Mute implements CommandExecutor {
 					}
 					
 					sendMessage(sender, msg);
+					
+				} else if(args.length == 2) {
+					
+					
+				} else if(args.length > 2) {
+					JECommand.tooManyArgs(sender);
 				} else {
-					sendMessage(sender, "You need to specify who to mute");
+					JECommand.tooFewArgs(sender);
 				}
 			}
 			

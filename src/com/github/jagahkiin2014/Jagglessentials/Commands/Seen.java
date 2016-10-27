@@ -55,6 +55,7 @@ public class Seen implements CommandExecutor {
 		sender.sendMessage(Log.ColorMessage("&6+----------&bUser&6---&bInfo&6----------+"));
 	}
 	
+	// Sent to regular players
 	private void seenNorm(CommandSender sender, String args) {
 		Player target = Bukkit.getPlayer(args);
 		if(target != null) {
@@ -77,6 +78,7 @@ public class Seen implements CommandExecutor {
 		}
 	}
 	
+	// Sent to 'staff' players
 	private void seenStaff(CommandSender sender, String args) {
 		Player target = Bukkit.getPlayer(args);
 		if(target != null) {
@@ -134,6 +136,7 @@ public class Seen implements CommandExecutor {
 		sender.sendMessage(Log.ColorMessage("&6+-------&b[JE]&6-&bv" + ver + "&6-------+"));
 	}
 	
+	// Gets known usernames from player file
 	private void getAliases(CommandSender sender, String target) {
 		File f = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(sender, target) + ".yml");
 		YamlConfiguration userFile = new YamlConfiguration();
@@ -148,6 +151,7 @@ public class Seen implements CommandExecutor {
 		}
 	}
 	
+	// Gets time since the player was online
 	private void getTimeSince(CommandSender sender, String target) {
 		File userFile = new File(Jagglessentials.UserDir + File.separator, UUIDFetcher.getUUID(sender, target) + ".yml");
 		YamlConfiguration userInfo = new YamlConfiguration();

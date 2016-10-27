@@ -29,6 +29,7 @@ public class PlayerLogout implements Listener {
 		
 		long now = Calendar.getInstance().getTimeInMillis();
 		
+		// Log logout time in milliseconds and coords
 		try {
 			userFile.load(newUser);
 			
