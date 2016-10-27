@@ -26,6 +26,7 @@ public class Jagglessentials extends JavaPlugin {
 	public List<String> authors;
 	
 	public static File UserDir;
+	public static ArrayList<String> muted = new ArrayList<String>();
 	public static HashMap<String, UUID> uuid = new HashMap<String, UUID>();
 	
 	@Override
@@ -86,9 +87,11 @@ public class Jagglessentials extends JavaPlugin {
 	private void registerEvents() {
 		PluginManager pm = Bukkit.getServer().getPluginManager();
 		
+		PlayerChat pChat = new PlayerChat(this);		
 		PlayerLogin pLogin = new PlayerLogin(this);
 		PlayerLogout pLogout = new PlayerLogout(this);
 		
+		pm.registerEvents(pChat, this);
 		pm.registerEvents(pLogin, this);
 		pm.registerEvents(pLogout, this);
 	}
