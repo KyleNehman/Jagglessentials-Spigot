@@ -40,8 +40,8 @@ commands:
 #        description: Mail a player a message.
 #    motd:
 #        description: Message of the day.
-#    mute:
-#        description: Mute a player.
+    mute:
+        description: Mute a player.
 #    onplayers:
 #        description: List all online players.
     seen:
